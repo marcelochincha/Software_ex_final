@@ -1,3 +1,7 @@
-# Chat service 
+# Examen final - Ingeniería de Software
 
-Simple chat service using flask.
+Billetera virtual tipo yape o plin.
+
+## Integrantes:
+- Marcelo Andres Chincha León
+- David Herencia Galván
