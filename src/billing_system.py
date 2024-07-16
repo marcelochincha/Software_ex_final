@@ -23,14 +23,16 @@ class User:
     def transferir(self,destino,valor):
         valor = int(valor)
         #Verificar que el saldo sea suficiente
+
+        if valor <= 0:
+            return "Valor invalido"
+    
         if self.saldo < valor:
-            print("Saldo insuficiente")
-            return
+            return "Saldo insuficiente"
         
         #obtener el destino
         if destino not in self.contactos:
-            print("Contacto no existe")
-            return
+            return "Contacto no existe"
         
         db_users[destino].saldo += valor
         self.saldo -= valor
@@ -39,11 +41,10 @@ class User:
         self.operaciones.append(operation)
         db_users[destino].operaciones.append(operation)
 
+        return f"Realizado en {datetime.datetime.now()}"
+
     def __str__(self):
         return f"Nombre: {self.nombre}, Numero: {self.numero}, Saldo: {self.saldo}, Contactos: {self.contactos}"
-
-
-
 
 class Billing_System:
     def __init__(self):
@@ -56,8 +57,7 @@ class Billing_System:
     def contactos(numero):
         user = db_users.get(numero,None)
         if not user:
-            print("Usuario no existe")
-            return
+            return "Usuario no existe"
 
         contactos = user.contactos
         datos_contactos = {}
@@ -72,18 +72,15 @@ class Billing_System:
     def pagar(mi_numero,numero_destino,valor):
         user = db_users.get(mi_numero,None)
         if not user:
-            print("Usuario no existe")
-            return
+            return "Usuario no existe"
 
-        user.transferir(numero_destino,valor)
+        return user.transferir(numero_destino,valor)
 
-        return f"Realizado en {datetime.datetime.now()}"
 
     def historial(mi_numero):
         user = db_users.get(mi_numero,None)
         if not user:
-            print("Usuario no existe")
-            return
+            return "Usuario no existe"
         
         print(user)
         
@@ -102,38 +99,12 @@ class Billing_System:
 
 
         return message
-
-
-"""
-    def add_user(alias, nombre, contactos=[]):
-        user = USER_TPL.copy()
-        user['alias'] = alias
-        user['nombre'] = nombre
-        user['contactos'] = contactos
-        Chat.db_users[alias] = user
-
-    def add_message(from_alias, to_alias, texto, fecha):
-        message = MSG_TPL.copy()
-        #check if to_alias exists
-        if to_alias not in Chat.get_all_users():
-            print(f"User {to_alias} does not exist")
-            return
-        message['from_alias'] = from_alias
-        message['to_alias'] = to_alias
-        message['fecha'] = fecha
-        message['texto'] = texto
-        Chat.db_messages.append(message)
-
-    def get_messages(alias):
-        messages = []
-        for message in Chat.db_messages:
-            if message['to_alias'] == alias:
-                messages.append(message)
-        return messages
-
-    def h(alias):
-        return Chat.db_users.get(alias, None)
     
-    def get_all_users():
-        return list(Chat.db_users.keys())
-"""
+#Guardando informacion en memoria
+Billing_System.add_user("21345", "Arnaldo", 200, ["123", "456"])
+Billing_System.add_user("123", "Luisa", 400, ["456"])
+Billing_System.add_user("456", "Andrea", 300, ["21345"])
+print("Data loaded!")
+
+#Debug purposes
+#print(db_users)
