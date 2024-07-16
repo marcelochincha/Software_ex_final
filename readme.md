@@ -4,7 +4,7 @@ Billetera virtual tipo yape o plin.
 
 ## Integrantes:
 - Marcelo Andres Chincha León
-- David Herencia Galván
+- David Manfredo Herencia Galván
 
 ---
 ## Pregunta 3
